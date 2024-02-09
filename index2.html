@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+    <style>
+        body {
+    background-color: #20235d;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.todo-app {
+    max-width: 600px;
+    background-color: hsl(0, 0%, 100%);
+    padding: 20px 30px 50px;
+    margin: 120px auto 15px;
+    border-radius: 15px;
+}
+
+.todo-app h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 20px;
+    border: 4px solid #632fff;
+    border-radius: 15px;
+    font-size: 1rem;
+    margin-left: 20px;
+}
+
+.btn {
+    background-color: #632fff;
+    border: none;
+    color: white;
+    padding: 20px 30px;
+    cursor: pointer;
+    border-radius: 15px;
+    font-size: 1.5rem;
+}
+
+.btn:hover {
+    background-color: #4a15e9;
+}
+
+ul li {
+    list-style-type: none;
+    font-size: 1.1rem;
+    padding: 10px 6px 10px 30px;
+    cursor: pointer;
+    position: relative;
+}
+
+ul li::before {
+    content: "☐";
+    font-size: 25px;
+    position: absolute;
+    left: -1px;
+    top: 4px;
+}
+
+#task-list {
+    padding: 0px 30px;
+}
+
+ul li.checked {
+    text-decoration: line-through;
+    color: #632fff;
+}
+
+ul li.checked::before {
+    content: "☑";
+    color: #632fff;
+}
+
+ul li span {
+    position: absolute;
+    top: 1.8px;
+    right: 5px;
+    color: rgb(227, 120, 26);
+    font-size: 2rem;
+}
+    </style>
+</head>
+<body>
+
+    <div class="todo-app">
+        <h1>Todo App</h1>
+        <form action="" id="task-form">
+            <input
+                type="text"
+                id="task-input"
+                placeholder="Enter a New Task"
+            />
+            <button class="btn" type="submit">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </form>
+        <ul id="task-list">
+            <!-- <li class="checked">Task 1</li>
+            <li class="checked">Task 2</li>
+            <li>Task 3</li> -->
+        </ul>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById("task-input");
+const taskForm = document.getElementById("task-form");
+const taskList = document.getElementById("task-list");
+
+taskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const taskTitle = taskInput.value;
+    console.log(taskTitle);
+
+    if (taskTitle == "") {
+        alert("Please Enter Task");
+    } else {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = taskTitle;
+        taskList.append(listItem);
+        let span = document.createElement("span");
+        span.innerHTML = `&times;`;
+        listItem.appendChild(span);
+        taskInput.value = "";
+        saveListData();
+    }
+});
+
+taskList.addEventListener("click", (e) => {
+    if (e.target.tagName == "LI") {
+        e.target.classList.toggle("checked");
+        saveListData();
+    }
+
+    if (e.target.tagName == "SPAN") {
+        const li = e.target.parentElement;
+        li.remove();
+        saveListData();
+    }
+});
+
+function showListData() {
+    taskList.innerHTML = localStorage.getItem("listItem");
+}
+
+function saveListData() {
+    localStorage.setItem("listItem", taskList.innerHTML);
+}
+
+showListData();
+    </script>
+</body>
+</html>
